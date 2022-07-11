@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Log in</title>
+
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //var page = window.location.pathname.split('/');
+            //if (localStorage.getItem('mainPage') == null) {
+            //    localStorage.setItem('mainPage', page[2]);
+            //}
+            //else if (localStorage.getItem('mainPage') == "Register.html" || localStorage.getItem('mainPage') == "register.html") {
+            //    localStorage.setItem('mainPage', page[2]);
+            //}
+            //else if (localStorage.getItem('mainPage') != page[2]) {
+            //    window.location.href = localStorage.getItem('mainPage');
+
+            //}
+
+
+            $('#btnLogin').click(function () {
+                if (!$('#loginForm')[0].checkValidity()) {
+                    $('#divErrorText').text('Unesite ispravne podatke za prijavu');
+                    $('#divError').show('fade');
+                    $(forma).submit();
+                }
+                $.ajax({
+                    url: '/token',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: {
+                        UserName: $('#username').val(),
+                        Password: $('#password').val(),
+                        grant_type: 'password'
+                    },
+                    success: function (response) {
+                        localStorage.setItem("accessToken", response.access_token);
+                        $.ajax({
+                            url: '/api/users/getpage/',
+                            method: 'GET',
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                            },
+                            success: function (data) {
+                                window.location.href = data.Value;
+                                localStorage.setItem("mainPage", response);
+                                localStorage.setItem("username", $('#username').val());
+                            }
+                        });
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseJSON.error_description);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body style="padding-top:20px">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="well">
+            <form id="loginForm">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="success">
+                            <th colspan="2">
+                                Prijava Korisnika
+                                <a href="Register.html" class="btn btn-success pull-right">
+                                    Registracija
+                                </a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Korisnicko Ime</td>
+                            <td>
+                                <input type="text" required id="username" placeholder="Korisnicko Ime" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lozinka</td>
+                            <td>
+                                <input type="password" required id="password" placeholder="Lozinka" />
+                            </td>
+                        </tr>
+                        <tr class="success">
+                            <td colspan="2">
+                                <input id="btnLogin" class="btn btn-success" type="button" value="Prijava" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <div id="divError" class="alert alert-danger collapse">
+                <a id="linkClose" href="#" class="close">&times;</a>
+                <div id="divErrorText"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
