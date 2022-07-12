@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Deliverers</title>
+
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('body').on('click', "input[name='btnDetails']", function (data) {
+                id = data.target.id;
+                alert('aaaaaa');
+                $.ajax({
+                    url: "/api/admin/setdeliverer",
+                    method: 'POST',
+                    //headers: {
+                    //    'Authorization': 'Bearer '
+                    //        + sessionStorage.getItem("accessToken")
+                    //},
+                    data: {
+                        Id: id
+                    },
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+
+
+
+
+
+            $.ajax({
+                url: '/api/admin/getdeliverers',
+                method: 'GET',
+                success: function (data) {
+                    $('#tblBody').empty();
+                    $.each(data, function (index, value) {
+                        var state = "";
+                        var id = value.Id;
+                        if (value.UserType == 2) {
+                            state = "PENDING";
+                        } else {
+                            state = "DELIVERER";
+
+                        }
+                        var row = $('<tr><td>'
+                            + value.UserName + '</td><td>'
+                            + value.Name + '</td><td>'
+                            + value.Surname + '</td><td>'
+                            + value.BirthDate + '</td><td>'
+                            + state + '</td><td>'
+                            + '<input id = ' + value.Id + 'name="btnDetails" class="btn btn-success" type="button" value="&#128270;" />'
+                            + '<input id = ' + value.Id + 'name="btnDelete" class="btn btn-danger" type="button" value="&#x1F5D1;" />'
+                            + '</td></tr>');
+                        $('#tblData').append(row);
+                    });
+                },
+                error: function (jQXHR) {
+                    // If status code is 401, access token expired, so
+                    // redirect the user to the login page
+                    if (jQXHR.status == "401") {
+                        $('#errorModal').modal('show');
+                    }
+                    else {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                }
+            });
+
+        });
+
+
+    </script>
+
+</head>
+<body>
+    <div id="divData" class="well">
+        <table class="table table-bordered table-responsive-md" id="tblData">
+            <thead>
+                <tr class="success">
+                    <td>Username</td>
+                    <td>Name</td>
+                    <td>Surname</td>
+                    <td>Birth date</td>
+                    <td>Account state</td>
+                    <td>Change state</td>
+                </tr>
+            </thead>
+            <tbody id="tblBody"></tbody>
+        </table>
+    </div>
+</body>
+</html>

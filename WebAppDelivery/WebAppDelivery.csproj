@@ -213,33 +213,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Data\Deliverer.cs">
-      <DependentUpon>DeliveryDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\DeliveryDB.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DeliveryDB.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\DeliveryDB.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DeliveryDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\DeliveryDB.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DeliveryDB.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Order.cs">
-      <DependentUpon>DeliveryDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Product.cs">
-      <DependentUpon>DeliveryDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\User.cs">
-      <DependentUpon>DeliveryDB.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Database\Repository.cs" />
+    <Compile Include="Database\WebDBContext.cs" />
     <Compile Include="Facebook\FacebookBackChannelHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -247,8 +222,10 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Classes\Admin.cs" />
+    <Compile Include="Models\Classes\Deliverer.cs" />
     <Compile Include="Models\Classes\Order.cs" />
     <Compile Include="Models\Classes\Product.cs" />
+    <Compile Include="Models\Classes\User.cs" />
     <Compile Include="Models\Classes\UserAb.cs" />
     <Compile Include="Models\Classes\UserType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -266,6 +243,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Pages\AddProduct.html" />
+    <Content Include="Pages\DeliverersList.html" />
     <Content Include="Pages\Login.html" />
     <Content Include="Pages\Main.html" />
     <Content Include="Pages\Register.html" />
@@ -291,23 +270,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <EntityDeploy Include="Data\DeliveryDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DeliveryDB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Data\DeliveryDB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DeliveryDB.edmx</DependentUpon>
-      <LastGenOutput>DeliveryDB.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Data\DeliveryDB.edmx.diagram">
-      <DependentUpon>DeliveryDB.edmx</DependentUpon>
-    </Content>
-    <Content Include="Data\DeliveryDB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DeliveryDB.edmx</DependentUpon>
-      <LastGenOutput>DeliveryDB.cs</LastGenOutput>
-    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\GoogleAuthentication.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

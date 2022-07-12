@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using WebAppDelivery.Data;
+using WebAppDelivery.Database;
 using WebAppDelivery.Models;
 using WebAppDelivery.Models.Classes;
 using WebAppDelivery.Providers;
@@ -69,18 +69,20 @@ namespace WebAppDelivery.Controllers
                 Password = model.Password,
                 Name = model.Name,
                 Surname =model.Surname,
+                BirthDate = model.BirthDate,
                 UserType = (int)UserType.USER
             };
 
             try
             {
-                using (WebDBEntities entities = new WebDBEntities())
+                using (WebDBContext entities = new WebDBContext())
                 {
                     entities.Users.Add(user);
                     entities.SaveChanges();
-                    
+
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return (BadRequest(ex.Message));
             }
@@ -103,7 +105,7 @@ namespace WebAppDelivery.Controllers
 
         [AllowAnonymous]
         [Route("RegisterDeliverer")]
-        public async Task<IHttpActionResult> RegisterDeliverer(RegisterUserBindingModel model)
+        public async Task<IHttpActionResult> RegisterDeliverer(RegisterDelivererBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -117,12 +119,13 @@ namespace WebAppDelivery.Controllers
                 Password = model.Password,
                 Name = model.Name,
                 Surname = model.Surname,
-                UserType = (int)UserType.PENDING
+                BirthDate = model.BirthDate,
+                UserType = UserType.PENDING
             };
 
             try
             {
-                using (WebDBEntities entities = new WebDBEntities())
+                using (WebDBContext entities = new WebDBContext())
                 {
                     entities.Deliverers.Add(user);
                     entities.SaveChanges();

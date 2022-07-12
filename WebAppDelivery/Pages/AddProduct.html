@@ -2,11 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Registracija</title>
+    <title></title>
 
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <script src="../Scripts/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
+
+
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -22,33 +24,19 @@
             //}
 
 
-            $('#btnFacebookLogin').click(function () {
-                window.location.href = "/api/Account/ExternalLogin?provider=Facebook&response_type=token&client_id=self&redirect_uri=https%3A%2F%2Flocalhost%3A44339%2FPages%2FLogin.html&state=GerGr5JlYx4t_KpsK57GFSxVueteyBunu02xJTak5m01";
 
-            });
-
-
-            $('#btnGoogleLogin').click(function () {
-                window.location.href = "/api/Account/ExternalLogin?provider=Google&response_type=token&client_id=self&redirect_uri=https%3A%2F%2Flocalhost%3A44339%2FPages%2FLogin.html&state=GerGr5JlYx4t_KpsK57GFSxVueteyBunu02xJTak5m01";
-            }); 
-
-
-            $('#btnRegister').click(function () {
+            $('#btnAddProduct').click(function () {
                 $.ajax({
-                    url: '/api/account/register',
+                    url: '/api/admin/createproduct',
                     method: 'POST',
                     data: {
-                        UserName: $('#UserName').val(),
                         Name: $('#Name').val(),
-                        Surname: $('#Surname').val(),
-                        Email: $('#Email').val(),
-                        Password: $('#Password').val(),
-                        BirthDate: $('#BirthDate').val(),
-                        ConfirmPassword: $('#ConfirmPassword').val()
+                        Ingredients: $('#Ingredients').val(),
+                        Price: $('#Price').val(),
                     },
                     success: function () {
                         $('#successModal').modal('show');
-                        window.location = "Login.html";
+                        window.location = "Main.html";
                     },
                     error: function (jqXHR) {
                         $('#divErrorText').text(jqXHR.responseJSON.Message);
@@ -60,6 +48,7 @@
     </script>
 
 
+
 </head>
 <body>
     <div class="col-md-10 col-md-offset-1">
@@ -69,77 +58,36 @@
                     <thead>
                         <tr class="success">
                             <th colspan="2">
-                                User Register
+                                Add Product
                                 <a href="Login.html" class="btn btn-success pull-right">
-                                    Login
-                                </a>
-                                <a href="RegisterDeliverer.html" class="btn btn-success pull-right">
-                                    Register Deliverer
+                                    Back
                                 </a>
                             </th>
                         </tr>
 
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Username</td>
-                            <td><input type="text" required id="UserName" placeholder="Username" /> </td>
-                        </tr>
                         <tr>
                             <td>Name</td>
                             <td><input type="text" required id="Name" placeholder="Name" /> </td>
                         </tr>
                         <tr>
-                            <td>Surname</td>
-                            <td><input type="text" required id="Surname" placeholder="Surname" /> </td>
+                            <td>Ingredients</td>
+                            <td><input type="text" required id="Ingredients" placeholder="Ingredients" /> </td>
                         </tr>
 
                         <tr>
-                            <td>Email</td>
-                            <td><input type="text" required id="Email" placeholder="Email" /> </td>
-                        </tr>
-                        <tr>
-                            <td>Password</td>
-                            <td>
-                                <input type="password" required id="Password" placeholder="Password" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Confirm Password</td>
-                            <td>
-                                <input type="password" required id="ConfirmPassword" placeholder="Confirm Password" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Birth date</td>
-                            <td>
-                                <input type="date" required id="BirthDate" />
-                            </td>
+                            <td>Price</td>
+                            <td><input type="number" required id="Price" placeholder="Price" /> </td>
                         </tr>
                         <tr class="success">
                             <td colspan="2">
-                                <input id="btnRegister" class="btn btn-success" type="button" value="Register" />
+                                <input id="btnAddProduct" class="btn btn-success" type="button" value="Add" />
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="success">
-                            <th>
-                                Social Logins
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input type="button" id="btnGoogleLogin"
-                                       value="Login with Google" class="btn btn-success" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                
 
             </form>
             <div class="modal fade" tabindex="-1" id="successModal"
