@@ -36,8 +36,27 @@
                 });
             });
 
-
-
+            $('body').on('click', "input[name='btnDelete']", function (data) {
+                id = data.target.id;
+                $.ajax({
+                    url: "/api/admin/blockdeliverer",
+                    method: 'POST',
+                    //headers: {
+                    //    'Authorization': 'Bearer '
+                    //        + sessionStorage.getItem("accessToken")
+                    //},
+                    data: {
+                        Id: id
+                    },
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
 
 
             $.ajax({
@@ -47,12 +66,16 @@
                     $('#tblBody').empty();
                     $.each(data, function (index, value) {
                         var state = "";
+                        var classHidden = "";
                         var id = value.Id;
                         if (value.UserType == 2) {
                             state = "PENDING";
-                        } else {
+                        }else if (value.UserType == 3) {
+                            state = "REJECTED";
+                            classHidden = "hidden";
+                        }else {
                             state = "DELIVERER";
-
+                            classHidden = "hidden";
                         }
                         var row = $('<tr><td>'
                             + value.UserName + '</td><td>'
@@ -60,8 +83,8 @@
                             + value.Surname + '</td><td>'
                             + value.BirthDate + '</td><td>'
                             + state + '</td><td>'
-                            + '<input id = ' + value.Id + 'name="btnDetails" class="btn btn-success" type="button" value="&#128270;" />'
-                            + '<input id = ' + value.Id + 'name="btnDelete" class="btn btn-danger" type="button" value="&#x1F5D1;" />'
+                            + '<input id = ' + value.Id + 'name="btnDetails" class="btn btn-success ' + classHidden + '" type="button" value="&#128270;" />'
+                            + '<input id = ' + value.Id + 'name="btnDelete" class="btn btn-danger ' + classHidden + '" type="button" value="&#x1F5D1;" />'
                             + '</td></tr>');
                         $('#tblData').append(row);
                     });

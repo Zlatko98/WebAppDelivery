@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
@@ -113,6 +114,15 @@ namespace WebAppDelivery.Models
         public string Name { get; set; }
         public string Ingredients { get; set; }
         public double Price { get; set; }
+    }
+
+    public class OrderProductBindingModel
+    {
+        public List<string> Names { get; set; }
+        public List<int> Amounts { get; set; }
+        public double Total { get; set; } 
+        public string  Address { get; set; }
+        public string Comment { get; set; }
     }
 
 

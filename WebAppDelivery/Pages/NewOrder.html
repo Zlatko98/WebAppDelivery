@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var cnt = 0;
+            var amount = 0;
+            var total = 0;
+            var current = 0;
+            var name;
+            var productList = [];
+            var amountList = [];
+
+            $.ajax({
+                type: "GET",
+                url: "/api/Products/GetProducts",
+                //headers: {
+                //    'Authorization': 'Bearer '
+                //        + sessionStorage.getItem("accessToken")
+                //},
+                success: function (data) {
+                    $.each(data, function (i, value) {
+                        var div_data = "<option value=" + value.Id + ">" + value.Name + '  Price: ' + value.Price + "</option>";
+                        $(div_data).appendTo('#Products');
+                    });
+                }
+            });
+
+            $('#order').click(function () {
+                $.ajax({
+                    url: '/api/order/placeorder',
+                    method: 'POST',
+                    data: {
+                        Address: $('#address').val(),
+                        Comment: $('#comment').val(),
+                        Total: $('#total').val(),
+                        Names: productList,
+                        Amounts: amountList
+                    },
+                    success: function () {
+                        $('#successModal').modal('show');
+                        window.location = "Main.html";
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseJSON.Message);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+
+
+            $(function () {
+                $("#copy").on('click', function () {
+
+                    $(".copy-input").each(function () {
+                        var input = $(this);
+                        amount = input.val();
+                        
+                        $(".copy-select").each(function () {
+                            var input = $(this).find(":selected").text();
+                            prodID = $(this).find(":selected").attr('id');
+                            const array = input.split("Price: ");
+                            var price = array[1];
+                            name = array[0];
+                            total = price * amount;
+                        });
+                    });
+                    amountList.push(amount);
+                    productList.push(name);
+                    var last = parseFloat($('#total').val());
+                    current = last + total;
+                    $('#total').val(current);
+
+                    $(".copy:first").clone().attr('id', 'div' + cnt).appendTo(".copies");
+
+                });
+            });
+        });
+
+
+    </script>
+
+</head>
+<body>
+    <div class="col-md-10 col-md-offset-1 well">
+        <div class="row">
+            <form id="registerForm">
+                <div class="col col-lg-6">
+                    <div id="div0" class="copy form-outline flex-fill mb-0">
+                        <div class="row">
+                            <div class="col col-sm-6">
+                                <label class="form-label">Products</label>
+                                <select style="display:inline-block" class=" copy-select form-control" id="Products">
+                                </select>
+                            </div>
+                            <div class="col col-sm-6">
+                                <label class="form-label">Amount</label>
+                                <input style="display:inline-block" class="copy-input form-control" type="number" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copies">
+
+                    </div>
+                    <br />
+                    <button class="btn btn-primary" type="button" id="copy">ADD</button>
+                </div>
+                <div class="col col-lg-6">
+                    <label class="form-label">Address</label>
+                    <input type="text" name="Address" id="address" class="form-control" placeholder="Address" />
+                    <label class="form-label">Comment</label>
+                    <input type="text" name="Comment" id="comment" class="form-control" placeholder="Comment" />
+                    <br />
+                    <label class="form-label">Total: </label>
+                    <input type="number" id="total" value="0" />
+                    <input class="btn btn-success" style="float:right" id="order" value="ORDER"/>
+                </div>
+           </form>
+        </div>
+    </div>
+
+</body>
+</html>

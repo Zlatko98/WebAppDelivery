@@ -10,6 +10,7 @@ namespace WebAppDelivery.Models.Classes
         USER,
         DELIVERER,
         PENDING,
+        REJECTED,
         ADMINISTRATOR
     }
 }
