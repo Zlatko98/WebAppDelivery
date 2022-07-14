@@ -258,6 +258,7 @@
     <Content Include="Pages\PendingOrders.html" />
     <Content Include="Pages\Register.html" />
     <Content Include="Pages\RegisterDeliverer.html" />
+    <Content Include="Pages\UserOrders.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

@@ -111,17 +111,25 @@ namespace WebAppDelivery.Models
 
     public class ProductBindingModel
     {
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Ingredients { get; set; }
+        [Required]
         public double Price { get; set; }
     }
 
     public class OrderProductBindingModel
     {
+        [Required]
         public List<string> Names { get; set; }
+        [Required]
         public List<int> Amounts { get; set; }
-        public double Total { get; set; } 
+        [Required]
+        public double Total { get; set; }
+        [Required]
         public string  Address { get; set; }
+        [Required]
         public string Comment { get; set; }
     }
 

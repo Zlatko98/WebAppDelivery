@@ -134,6 +134,32 @@ namespace WebAppDelivery.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "User")]
+        [Route("api/order/getuserorders")]
+        public List<Order> GetUserOrders()
+        {
+            string username = RequestContext.Principal.Identity.Name;
+            User user = null;
+            List<Order> orders = new List<Order>();
 
+            try
+            {
+                using (WebDBContext entities = new WebDBContext())
+                {
+                    user = entities.Users.FirstOrDefault(p => p.UserName == username);
+
+                    foreach(Order o in user.Orders)
+                    {
+                        orders.Add(o);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return orders;
+        }
     }
 }

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                url: '/api/order/getuserorders',
+                method: 'GET',
+                success: function (data) {
+                    $('#tblBody').empty();
+                    $.each(data, function (index, value) {
+                        var row = $('<tr><td>'
+                            + value.Address + '</td><td>'
+                            + value.Comment + '</td><td>'
+                            + value.Total + '</td><td>'
+                            + value.OrderState + '</td><td>');
+                        $('#tblData').append(row);
+                    });
+                },
+                error: function (jQXHR) {
+                    // If status code is 401, access token expired, so
+                    // redirect the user to the login page
+                    if (jQXHR.status == "401") {
+                        $('#errorModal').modal('show');
+                    }
+                    else {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                }
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+    <div id="divData" class="well">
+        <table class="table table-bordered table-responsive-md" id="tblData">
+            <thead>
+                <tr class="success">
+                    <td>Address</td>
+                    <td>Comment</td>
+                    <td>Total</td>
+                    <td>Take</td>
+                </tr>
+            </thead>
+            <tbody id="tblBody"></tbody>
+        </table>
+    </div>
+</body>
+</html>

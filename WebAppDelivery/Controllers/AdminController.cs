@@ -8,6 +8,7 @@ using System.Web.Http;
 using WebAppDelivery.Database;
 using WebAppDelivery.Models;
 using WebAppDelivery.Models.Classes;
+using System.Net.Mail;
 
 namespace WebAppDelivery.Controllers
 {
@@ -94,16 +95,31 @@ namespace WebAppDelivery.Controllers
                     deliverer = entities.Deliverers.FirstOrDefault(d => d.Id == model.Id);
                     deliverer.UserType = UserType.DELIVERER;
                     entities.SaveChanges();
-                    return Ok();
                 }
             }
             catch (Exception ex)
             {
                 return (BadRequest(ex.Message));
             }
+
+            #region Mail
+            MailMessage mm = new MailMessage();
+            mm.From = new MailAddress("zlatkolukic998@gmail.com");
+            mm.To.Add(deliverer.Email);
+            mm.Subject = "Account state changed";
+            mm.Body = "Your account is set to DELIVERER.";
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+            smtpClient.UseDefaultCredentials = true;
+            smtpClient.Port = 587;
+            smtpClient.EnableSsl = true;
+            smtpClient.Credentials = new NetworkCredential("zlatkolukic998@gmail.com", "cavoledeni4323");
+            smtpClient.Send(mm);
+            #endregion
+
+            return Ok();
         }
 
-        [Route("api/admin/setdeliverer")]
+        [Route("api/admin/blockdeliverer")]
         [HttpPost]
         public IHttpActionResult BlockDeliverer([FromBody] SetDelivererBindingModel model)
         {
@@ -115,13 +131,27 @@ namespace WebAppDelivery.Controllers
                     deliverer = entities.Deliverers.FirstOrDefault(d => d.Id == model.Id);
                     deliverer.UserType = UserType.REJECTED;
                     entities.SaveChanges();
-                    return Ok();
                 }
             }
             catch (Exception ex)
             {
                 return (BadRequest(ex.Message));
             }
+            #region Mail
+            MailMessage mm = new MailMessage();
+            mm.From = new MailAddress("zlatkolukic998@gmail.com");
+            mm.To.Add(deliverer.Email);
+            mm.Subject = "Account state changed";
+            mm.Body = "Your account is REJECTED.";
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+            smtpClient.UseDefaultCredentials = true;
+            smtpClient.Port = 587;
+            smtpClient.EnableSsl = true;
+            smtpClient.Credentials = new NetworkCredential("zlatkolukic998@gmail.com", "cavoledeni4323");
+            smtpClient.Send(mm);
+            #endregion
+
+            return Ok();
         }
 
     }
