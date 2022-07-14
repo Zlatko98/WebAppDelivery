@@ -13,4 +13,11 @@ namespace WebAppDelivery.Models.Classes
         REJECTED,
         ADMINISTRATOR
     }
+
+    public enum OrderState
+    {
+        PENDING,
+        INPROGRESS,
+        FINISHED
+    }
 }

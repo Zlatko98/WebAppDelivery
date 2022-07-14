@@ -104,6 +104,28 @@ namespace WebAppDelivery.Controllers
         [HttpPost]
         public IHttpActionResult SetDeliverer([FromBody]int id)
         {
+            string username = RequestContext.Principal.Identity.Name;
+
+            Deliverer deliverer = null;
+            Order order = null;
+
+            try
+            {
+                using (WebDBContext entities = new WebDBContext())
+                {
+
+                    deliverer = entities.Deliverers.FirstOrDefault(p => p.UserName == username);
+                    order = entities.Orders.FirstOrDefault(o => o.Id == id);
+                    order.OrderState = OrderState.INPROGRESS;
+                    deliverer.Orders.Add(order);
+                    entities.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                return (BadRequest(ex.Message));
+            }
+
             return Ok();
         }
 
