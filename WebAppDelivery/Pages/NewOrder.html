@@ -36,7 +36,7 @@
 
             $('#order').click(function () {
                 $.ajax({
-                    url: '/api/order/placeorder',
+                    url: '/api/order/createorder',
                     method: 'POST',
                     data: {
                         Address: $('#address').val(),

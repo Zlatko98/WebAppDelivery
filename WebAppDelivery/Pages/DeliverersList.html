@@ -17,7 +17,7 @@
                 id = data.target.id;
                 alert('aaaaaa');
                 $.ajax({
-                    url: "/api/admin/setdeliverer",
+                    url: "/api/order/setdeliverer",
                     method: 'POST',
                     //headers: {
                     //    'Authorization': 'Bearer '
@@ -27,7 +27,7 @@
                         Id: id
                     },
                     success: function () {
-                        window.location.reload();
+                        window.location.href = "OrderCountdown.html";
                     },
                     error: function (jqXHR) {
                         $('#divErrorText').text(jqXHR.responseText);

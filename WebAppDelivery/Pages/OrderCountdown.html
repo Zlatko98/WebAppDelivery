@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/countdowntimer.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "GET",
+                url: "/api/order/gettime",
+                //headers: {
+                //    'Authorization': 'Bearer '
+                //        + sessionStorage.getItem("accessToken")
+                //},
+                success: function (data) {
+                    minut = data.value,
+                    alert(data.value);
+                }
+            });
+
+            var timer = "00: " + 30 + ":00";
+            
+
+            $(function () {
+                $('.counter').setCountDownTimer({
+                    time: timer,
+                    countDownText: 'Delivery time:',
+                });
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <h1 class="counter"></h1>
+
+</body>
+</html>
