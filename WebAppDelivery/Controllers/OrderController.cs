@@ -12,7 +12,7 @@ namespace WebAppDelivery.Controllers
 {
     public class OrderController : ApiController
     {
-        [AllowAnonymous]
+        [Authorize]
         [Route("api/order/createorder")]
         [HttpPost]
         public IHttpActionResult CreateOrder([FromBody] OrderProductBindingModel model)
@@ -63,24 +63,29 @@ namespace WebAppDelivery.Controllers
                 return (BadRequest(ex.Message));
             }
 
-
             return Ok();
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles ="Deliverer")]
         [Route("api/order/getpendingorders")]
         public List<Order> GetOrders()
         {
+            string username = RequestContext.Principal.Identity.Name;
+            Deliverer deliverer = null;
             List<Order> orders = new List<Order>();
 
             try
             {
                 using (WebDBContext entities = new WebDBContext())
                 {
-                    orders = entities.Orders.ToList();
+                    deliverer = entities.Deliverers.FirstOrDefault(p => p.UserName == username);
+
+                    if (deliverer.UserType == UserType.DELIVERER)
+                    {
+                        orders = entities.Orders.ToList();
+                    }
                 }
-            }
-            catch (Exception ex)
+            }catch(Exception ex)
             {
 
             }
@@ -99,10 +104,10 @@ namespace WebAppDelivery.Controllers
             return Ok(new {value = time });
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Deliverer")]
         [Route("api/order/takeorder")]
         [HttpPost]
-        public IHttpActionResult SetDeliverer([FromBody]int id)
+        public IHttpActionResult TakeOrder([FromBody]int id)
         {
             string username = RequestContext.Principal.Identity.Name;
 

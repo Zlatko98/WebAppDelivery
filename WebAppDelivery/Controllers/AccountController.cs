@@ -70,7 +70,7 @@ namespace WebAppDelivery.Controllers
                 Name = model.Name,
                 Surname =model.Surname,
                 BirthDate = model.BirthDate,
-                UserType = (int)UserType.USER
+                UserType = UserType.USER
             };
 
             try
@@ -140,7 +140,7 @@ namespace WebAppDelivery.Controllers
             var appUser = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
             IdentityUserRole r = new IdentityUserRole();
             r.UserId = appUser.Id;
-            r.RoleId = "4";
+            r.RoleId = "2";
             appUser.Roles.Add(r);
             IdentityResult result = await UserManager.CreateAsync(appUser, model.Password);
 

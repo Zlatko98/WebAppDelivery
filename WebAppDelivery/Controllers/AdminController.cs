@@ -13,7 +13,7 @@ namespace WebAppDelivery.Controllers
 {
     public class AdminController : ApiController
     {
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [Route("api/admin/createproduct")]
         [HttpPost]
         public IHttpActionResult CreateProduct([FromBody]ProductBindingModel model)
@@ -60,8 +60,7 @@ namespace WebAppDelivery.Controllers
 
             return Ok();
         }
-
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [Route("api/admin/getdeliverers")]
         public List<Deliverer> GetDeliverers()
         {
@@ -82,7 +81,7 @@ namespace WebAppDelivery.Controllers
             return deliverers;
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [Route("api/admin/setdeliverer")]
         [HttpPost]
         public IHttpActionResult SetDeliverer([FromBody] SetDelivererBindingModel model)
@@ -104,7 +103,6 @@ namespace WebAppDelivery.Controllers
             }
         }
 
-        [AllowAnonymous]
         [Route("api/admin/setdeliverer")]
         [HttpPost]
         public IHttpActionResult BlockDeliverer([FromBody] SetDelivererBindingModel model)

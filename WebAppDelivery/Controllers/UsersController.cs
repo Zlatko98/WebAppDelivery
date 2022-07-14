@@ -25,14 +25,14 @@ namespace WebAppDelivery.Controllers
             {
                 using (WebDBContext entities = new WebDBContext())
                 {
-                    if((user = entities.Users.FirstOrDefault(d => d.UserName == username)) == null)
+                    if ((user = entities.Users.FirstOrDefault(d => d.UserName == username)) == null)
                     {
                         deliverer = entities.Deliverers.FirstOrDefault(d => d.UserName == username);
                         return Ok(new { Value = "MainDeliverer.html" });
                     }
                     else
                     {
-                        if(user.UserType == UserType.ADMINISTRATOR)
+                        if (user.UserType == UserType.ADMINISTRATOR)
                         {
                             return Ok(new { Value = "MainAdmin.html" });
                         }
@@ -41,6 +41,30 @@ namespace WebAppDelivery.Controllers
                             return Ok(new { Value = "MainUser.html" });
                         }
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                return (BadRequest(ex.Message));
+            }
+        }
+
+        [Authorize]
+        [Route("api/users/getstate")]
+        public IHttpActionResult GetState()
+        {
+            string username = RequestContext.Principal.Identity.Name;
+
+            Deliverer deliverer = null;
+
+            try
+            {
+                using (WebDBContext entities = new WebDBContext())
+                {
+                    deliverer = entities.Deliverers.FirstOrDefault(d => d.UserName == username);
+                    string state = deliverer.UserType.ToString();
+                    return Ok(new { Value = state });
+
                 }
             }
             catch (Exception ex)

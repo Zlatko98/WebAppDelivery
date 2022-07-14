@@ -22,10 +22,10 @@
             $.ajax({
                 type: "GET",
                 url: "/api/Products/GetProducts",
-                //headers: {
-                //    'Authorization': 'Bearer '
-                //        + sessionStorage.getItem("accessToken")
-                //},
+                headers: {
+                    'Authorization': 'Bearer '
+                        + sessionStorage.getItem("accessToken")
+                },
                 success: function (data) {
                     $.each(data, function (i, value) {
                         var div_data = "<option value=" + value.Id + ">" + value.Name + '  Price: ' + value.Price + "</option>";
@@ -47,7 +47,7 @@
                     },
                     success: function () {
                         $('#successModal').modal('show');
-                        window.location = "Main.html";
+                        window.location = "MainUser.html";
                     },
                     error: function (jqXHR) {
                         $('#divErrorText').text(jqXHR.responseJSON.Message);

@@ -9,11 +9,39 @@
     <script src="../Scripts/bootstrap.min.js"></script>
 
     <script>
+        $(document).ready(function () {
+            if (sessionStorage.getItem('accessToken') == null)
+                window.location.href = "Login.html";
 
+            $('#logout').click(function () {
+                sessionStorage.removeItem('accessToken');
+                window.location.href = "Login.html";
+            })
 
+            $.ajax({
+                url: '/api/users/getpage/',
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                },
+                success: function (data) {
+                    
+                }
+            });
 
+            $.ajax({
+                url: '/api/users/getstate/',
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                },
+                success: function (data) {
+                    $('#delState').html(data.value);
+                }
+            });
+
+        });
     </script>
-
     <style>
         ul {
             list-style-type: none;
@@ -43,11 +71,14 @@
 <body>
 
     <ul>
-        <li><a class="active" href="">Home</a></li>
+        <li><a class="active" href="MainDeliverer.html">Home</a></li>
         <li><a href="#news">Profile</a></li>
-        <li><a href="#contact">Orders</a></li>
-        <li><a href="DeliverersList.html">Verification</a></li>
+        <li><a href="PendingOrders.html">Pending orders</a></li>
+        <li><a href="OrderCountdown.html">Current order</a></li>
+        <li><a href="Login.html" id="logout">Log out</a></li>
+
     </ul>
+    <h3>State: </h3><p id="delState"></p>
 
 </body>
 </html>

@@ -250,8 +250,8 @@
     <Content Include="Pages\DeliverersList.html" />
     <Content Include="Pages\Login.html" />
     <Content Include="Pages\Main.html" />
-    <Content Include="Pages\MainAdmin.html" />
     <Content Include="Pages\MainDeliverer.html" />
+    <Content Include="Pages\MainAdmin.html" />
     <Content Include="Pages\MainUser.html" />
     <Content Include="Pages\NewOrder.html" />
     <Content Include="Pages\OrderCountdown.html" />

@@ -14,14 +14,13 @@
 
             $('body').on('click', "input[name='btnTake']", function (data) {
                 id = data.target.id;
-                alert('aaaaaa');
                 $.ajax({
                     url: "/api/order/takeorder",
                     method: 'POST',
-                    //headers: {
-                    //    'Authorization': 'Bearer '
-                    //        + sessionStorage.getItem("accessToken")
-                    //},
+                    headers: {
+                        'Authorization': 'Bearer '
+                            + sessionStorage.getItem("accessToken")
+                    },
                     data: {
                         id: id
                     },
@@ -36,7 +35,6 @@
             });
 
 
-
             $.ajax({
                 url: '/api/order/getpendingorders',
                 method: 'GET',
@@ -47,7 +45,7 @@
                             + value.Address + '</td><td>'
                             + value.Comment + '</td><td>'
                             + value.Total + '</td><td>'
-                            + '<input id = ' + value.Id + ' name="btnTake" class="btn btn-success" type="button" value="&#128270;" />'
+                            + '<input id = ' + value.Id + ' name="btnTake" class="btn btn-success" type="button" value="TAKE" />'
                             + '</td></tr>');
                         $('#tblData').append(row);
                     });

@@ -3,6 +3,41 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            if (sessionStorage.getItem('accessToken') == null)
+                window.location.href = "Login.html";
+
+
+            $.ajax({
+                url: '/api/users/getpage/',
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                },
+                success: function (data) {
+                    window.location.href = data.Value;
+                    localStorage.setItem("mainPage", response);
+                    localStorage.setItem("username", $('#username').val());
+                }
+            });
+
+
+            $('#logout').click(function () {
+                sessionStorage.removeItem('accessToken');
+                window.location.href = "Login.html";
+            })
+
+
+        });
+
+    </script>
+
+
     <style>
         ul {
             list-style-type: none;
@@ -32,10 +67,12 @@
 <body>
 
     <ul>
-        <li><a class="active" href="#home">Home</a></li>
+        <li><a class="active" href="MainUser.html">Home</a></li>
         <li><a href="#news">News</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#about">About</a></li>
+        <li><a href="Login.html" id="logout">Log out</a></li>
+
     </ul>
 
 </body>

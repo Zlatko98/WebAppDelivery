@@ -13,13 +13,12 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-
             $('#btnLogin').click(function () {
-                if (!$('#loginForm')[0].checkValidity()) {
-                    $('#divErrorText').text('Unesite ispravne podatke za prijavu');
-                    $('#divError').show('fade');
-                    $(forma).submit();
-                }
+                //if (!$('#loginForm')[0].checkValidity()) {
+                //    $('#divErrorText').text('Unesite ispravne podatke za prijavu');
+                //    $('#divError').show('fade');
+                //    $(forma).submit();
+                //}
                 $.ajax({
                     url: '/token',
                     method: 'POST',
@@ -39,8 +38,8 @@
                             },
                             success: function (data) {
                                 window.location.href = data.Value;
-                                localStorage.setItem("mainPage", response);
-                                localStorage.setItem("username", $('#username').val());
+                                //localStorage.setItem("mainPage", response);
+                                //localStorage.setItem("username", $('#username').val());
                             }
                         });
                     },
