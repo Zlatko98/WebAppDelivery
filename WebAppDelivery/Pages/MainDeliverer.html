@@ -10,11 +10,11 @@
 
     <script>
         $(document).ready(function () {
-            if (sessionStorage.getItem('accessToken') == null)
+            if (localStorage.getItem('accessToken') == null)
                 window.location.href = "Login.html";
 
             $('#logout').click(function () {
-                sessionStorage.removeItem('accessToken');
+                localStorage.removeItem('accessToken');
                 window.location.href = "Login.html";
             })
 

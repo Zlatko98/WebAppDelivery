@@ -24,7 +24,7 @@
                 url: "/api/Products/GetProducts",
                 headers: {
                     'Authorization': 'Bearer '
-                        + sessionStorage.getItem("accessToken")
+                        + localStorage.getItem("accessToken")
                 },
                 success: function (data) {
                     $.each(data, function (i, value) {

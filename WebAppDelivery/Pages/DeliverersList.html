@@ -13,55 +13,14 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $('body').on('click', "input[name='btnDetails']", function (data) {
-                id = data.target.id;
-                alert('aaaaaa');
-                $.ajax({
-                    url: "/api/order/setdeliverer",
-                    method: 'POST',
-                    //headers: {
-                    //    'Authorization': 'Bearer '
-                    //        + sessionStorage.getItem("accessToken")
-                    //},
-                    data: {
-                        Id: id
-                    },
-                    success: function () {
-                        window.location.href = "OrderCountdown.html";
-                    },
-                    error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
-                    }
-                });
-            });
-
-            $('body').on('click', "input[name='btnDelete']", function (data) {
-                id = data.target.id;
-                $.ajax({
-                    url: "/api/admin/blockdeliverer",
-                    method: 'POST',
-                    //headers: {
-                    //    'Authorization': 'Bearer '
-                    //        + sessionStorage.getItem("accessToken")
-                    //},
-                    data: {
-                        Id: id
-                    },
-                    success: function () {
-                        window.location.reload();
-                    },
-                    error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
-                    }
-                });
-            });
-
 
             $.ajax({
                 url: '/api/admin/getdeliverers',
                 method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer '
+                        + localStorage.getItem("accessToken")
+                },
                 success: function (data) {
                     $('#tblBody').empty();
                     $.each(data, function (index, value) {
@@ -83,8 +42,8 @@
                             + value.Surname + '</td><td>'
                             + value.BirthDate + '</td><td>'
                             + state + '</td><td>'
-                            + '<input id = ' + value.Id + 'name="btnDetails" class="btn btn-success ' + classHidden + '" type="button" value="ACCEPT" />'
-                            + '<input id = ' + value.Id + 'name="btnDelete" class="btn btn-danger ' + classHidden + '" type="button" value="BLOCK" />'
+                            + '<input id = ' + value.Id + ' name="btnDetails" class="btn btn-success' + classHidden + '" type="button" value="ACCEPT" />'
+                            + '<input id = ' + value.Id + ' name="btnDelete" class="btn btn-danger' + classHidden + '" type="button" value="BLOCK" />'
                             + '</td></tr>');
                         $('#tblData').append(row);
                     });
@@ -102,7 +61,53 @@
                 }
             });
 
+            $('body').on('click', "input[name='btnDetails']", function (data) {
+                id = data.target.id;
+                alert('aaaaaa');
+                $.ajax({
+                    url: "/api/admin/setdeliverer",
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer '
+                            + localStorage.getItem("accessToken")
+                    },
+                    data: {
+                        Id: id
+                    },
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+
+            $('body').on('click', "input[name='btnDelete']", function (data) {
+                id = data.target.id;
+                $.ajax({
+                    url: "/api/admin/blockdeliverer",
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer '
+                            + localtorage.getItem("accessToken")
+                    },
+                    data: {
+                        Id: id
+                    },
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+
         });
+
 
 
     </script>

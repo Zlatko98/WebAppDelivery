@@ -112,13 +112,14 @@ namespace WebAppDelivery.Controllers
             smtpClient.UseDefaultCredentials = true;
             smtpClient.Port = 587;
             smtpClient.EnableSsl = true;
-            smtpClient.Credentials = new NetworkCredential("zlatkolukic998@gmail.com", "cavoledeni4323");
+            smtpClient.Credentials = new NetworkCredential("zlatkolukic998@gmail.com", "thkziqwdjusoxncf");
             smtpClient.Send(mm);
             #endregion
 
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("api/admin/blockdeliverer")]
         [HttpPost]
         public IHttpActionResult BlockDeliverer([FromBody] SetDelivererBindingModel model)

@@ -9,7 +9,7 @@
 
     <script>
         $(document).ready(function () {
-            if (sessionStorage.getItem('accessToken') == null)
+            if (localStorage.getItem('accessToken') == null)
                 window.location.href = "Login.html";
 
 
@@ -20,15 +20,15 @@
                     'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                 },
                 success: function (data) {
-                    window.location.href = data.Value;
-                    localStorage.setItem("mainPage", response);
-                    localStorage.setItem("username", $('#username').val());
+                    //window.location.href = data.Value;
+                    //localStorage.setItem("mainPage", response);
+                    //localStorage.setItem("username", $('#username').val());
                 }
             });
 
 
             $('#logout').click(function () {
-                sessionStorage.removeItem('accessToken');
+                localStorage.removeItem('accessToken');
                 window.location.href = "Login.html";
             })
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace WebAppDelivery.Models
@@ -39,7 +40,7 @@ namespace WebAppDelivery.Models
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-
+        
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -71,6 +72,7 @@ namespace WebAppDelivery.Models
     {
         [Required]
         [Display(Name = "Username")]
+        [Index("Index", IsUnique =true)]
         public string UserName { get; set; }
 
 
