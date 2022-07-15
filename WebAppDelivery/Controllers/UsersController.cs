@@ -49,7 +49,7 @@ namespace WebAppDelivery.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles ="Deliverer")]
         [Route("api/users/getstate")]
         public IHttpActionResult GetState()
         {
@@ -72,5 +72,9 @@ namespace WebAppDelivery.Controllers
                 return (BadRequest(ex.Message));
             }
         }
+
+
+
+
     }
 }

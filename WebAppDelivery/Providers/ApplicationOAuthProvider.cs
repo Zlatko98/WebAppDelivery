@@ -77,10 +77,10 @@ namespace WebAppDelivery.Providers
             {
                 Uri expectedRootUri = new Uri(context.Request.Uri, "Pages/Login.html");
 
-                if (expectedRootUri.AbsoluteUri == context.RedirectUri)
-                {
+                //if (expectedRootUri.AbsoluteUri == context.RedirectUri)
+                //{
                     context.Validated();
-                }
+                //}
             }
 
             return Task.FromResult<object>(null);

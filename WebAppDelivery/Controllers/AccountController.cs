@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -87,10 +88,10 @@ namespace WebAppDelivery.Controllers
                 return (BadRequest(ex.Message));
             }
 
-            var appUser = new ApplicationUser() { UserName = model.UserName, Email = model.Email};
+            var appUser = new ApplicationUser() { UserName = model.UserName};
             IdentityUserRole r = new IdentityUserRole();
             r.UserId = appUser.Id;
-            r.RoleId = "3";
+            r.RoleId = "1";
             appUser.Roles.Add(r);
             IdentityResult result = await UserManager.CreateAsync(appUser, model.Password);
 
@@ -102,6 +103,84 @@ namespace WebAppDelivery.Controllers
 
             return Ok();
         }
+        [Authorize(Roles ="User")]
+        [Route("edituser")]
+        public async Task<IHttpActionResult> EditUser(EditUserBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string username = RequestContext.Principal.Identity.Name;
+
+            //User user = new User
+            //{
+            //    Email = model.Email,
+            //    Name = model.Name,
+            //    Surname = model.Surname,
+            //    BirthDate = model.BirthDate,
+            //};
+
+            User user = new User();
+
+            try
+            {
+                using (WebDBContext entities = new WebDBContext())
+                {
+                    user = entities.Users.FirstOrDefault(d => d.UserName == username);
+                    user.Email = model.Email;
+                    user.Name = model.Name;
+                    user.Surname = model.Surname;
+                    user.BirthDate = model.BirthDate;
+                    entities.SaveChanges();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return (BadRequest(ex.Message));
+            }
+
+            return Ok();
+        }
+
+        [Authorize(Roles = "Deliverer")]
+        [Route("editdeliverer")]
+        public async Task<IHttpActionResult> EditDeliverer(EditDelivererBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string username = RequestContext.Principal.Identity.Name;
+
+            Deliverer user = new Deliverer();
+
+            try
+            {
+                using (WebDBContext entities = new WebDBContext())
+                {
+                    user = entities.Deliverers.FirstOrDefault(d => d.UserName == username);
+                    user.Email = model.Email;
+                    user.Name = model.Name;
+                    user.Surname = model.Surname;
+                    user.BirthDate = model.BirthDate;
+                    entities.SaveChanges();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return (BadRequest(ex.Message));
+            }
+
+            return Ok();
+        }
+
+
+
 
         [AllowAnonymous]
         [Route("RegisterDeliverer")]
@@ -137,7 +216,7 @@ namespace WebAppDelivery.Controllers
                 return (BadRequest(ex.Message));
             }
 
-            var appUser = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
+            var appUser = new ApplicationUser() { UserName = model.UserName};
             IdentityUserRole r = new IdentityUserRole();
             r.UserId = appUser.Id;
             r.RoleId = "2";
@@ -439,7 +518,7 @@ namespace WebAppDelivery.Controllers
                 return InternalServerError();
             }
 
-            var user = new ApplicationUser() { UserName = info.Email, Email = info.Email };
+            var user = new ApplicationUser() { UserName = info.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user);
             if (!result.Succeeded)

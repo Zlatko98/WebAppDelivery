@@ -36,7 +36,7 @@
                     'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                 },
                 success: function (data) {
-                    $('#delState').html(data.value);
+                    $('<p>' + data.Value + '</p>').appendTo('#delState');
                 }
             });
 
@@ -72,13 +72,13 @@
 
     <ul>
         <li><a class="active" href="MainDeliverer.html">Home</a></li>
-        <li><a href="#news">Profile</a></li>
+        <li><a href="DelivererProfile.html">Profile</a></li>
         <li><a href="PendingOrders.html">Pending orders</a></li>
         <li><a href="OrderCountdown.html">Current order</a></li>
         <li><a href="Login.html" id="logout">Log out</a></li>
 
     </ul>
-    <h3>State: </h3><p id="delState"></p>
+    <h3>State: </h3><div id="delState"></div>
 
 </body>
 </html>

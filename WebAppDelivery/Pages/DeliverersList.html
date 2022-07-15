@@ -31,10 +31,10 @@
                             state = "PENDING";
                         }else if (value.UserType == 3) {
                             state = "REJECTED";
-                            classHidden = "hidden";
+                            classHidden = "disabled";
                         }else {
                             state = "DELIVERER";
-                            classHidden = "hidden";
+                            classHidden = "disabled";
                         }
                         var row = $('<tr><td>'
                             + value.UserName + '</td><td>'
@@ -42,8 +42,8 @@
                             + value.Surname + '</td><td>'
                             + value.BirthDate + '</td><td>'
                             + state + '</td><td>'
-                            + '<input id = ' + value.Id + ' name="btnDetails" class="btn btn-success' + classHidden + '" type="button" value="ACCEPT" />'
-                            + '<input id = ' + value.Id + ' name="btnDelete" class="btn btn-danger' + classHidden + '" type="button" value="BLOCK" />'
+                            + '<input id = ' + value.Id + ' name="btnDetails" class="btn btn-success" ' + classHidden + ' type="button" value="ACCEPT" />'
+                            + '<input id = ' + value.Id + ' name="btnDelete" class="btn btn-danger" ' + classHidden + ' type="button" value="BLOCK" />'
                             + '</td></tr>');
                         $('#tblData').append(row);
                     });

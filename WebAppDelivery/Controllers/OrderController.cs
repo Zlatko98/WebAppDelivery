@@ -44,7 +44,6 @@ namespace WebAppDelivery.Controllers
                 {
                     foreach (string name in model.Names)
                     {
-
                         product = entities.Products.FirstOrDefault(p => p.Name == name);
                         products.Add(product);
                         entities.SaveChanges();
@@ -161,5 +160,35 @@ namespace WebAppDelivery.Controllers
 
             return orders;
         }
+
+        [Authorize(Roles = "Deliverer")]
+        [Route("api/order/getdeliverersorders")]
+        public List<Order> GetDeliverersOrders()
+        {
+            string username = RequestContext.Principal.Identity.Name;
+            Deliverer user = null;
+            List<Order> orders = new List<Order>();
+
+            try
+            {
+                using (WebDBContext entities = new WebDBContext())
+                {
+                    user = entities.Deliverers.FirstOrDefault(p => p.UserName == username);
+
+                    foreach (Order o in user.Orders)
+                    {
+                        orders.Add(o);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return orders;
+        }
+
+
     }
 }

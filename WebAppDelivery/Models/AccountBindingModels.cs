@@ -66,13 +66,15 @@ namespace WebAppDelivery.Models
         [Required]
         [Display(Name = "Surname")]
         public string Surname { get; set; }
-    }
 
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+    }
     public class RegisterDelivererBindingModel
     {
         [Required]
         [Display(Name = "Username")]
-        [Index("Index", IsUnique =true)]
         public string UserName { get; set; }
 
 
@@ -102,7 +104,52 @@ namespace WebAppDelivery.Models
         [Display(Name = "Surname")]
         public string Surname { get; set; }
 
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+    }
 
+    public class EditDelivererBindingModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Required]
+        public DateTime BirthDate { get; set; }
+
+        [Required]
+        [Display(Name = "Surname")]
+        public string Surname { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+    }
+    public class EditUserBindingModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Required]
+        public DateTime BirthDate { get; set; }
+
+        [Required]
+        [Display(Name = "Surname")]
+        public string Surname { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
     }
 
 

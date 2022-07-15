@@ -247,6 +247,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Pages\AddProduct.html" />
+    <Content Include="Pages\DelivererOrders.html" />
+    <Content Include="Pages\DelivererProfile.html" />
     <Content Include="Pages\DeliverersList.html" />
     <Content Include="Pages\Login.html" />
     <Content Include="Pages\Main.html" />
@@ -259,6 +261,7 @@
     <Content Include="Pages\Register.html" />
     <Content Include="Pages\RegisterDeliverer.html" />
     <Content Include="Pages\UserOrders.html" />
+    <Content Include="Pages\UserProfile.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
