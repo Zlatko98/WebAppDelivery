@@ -247,6 +247,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Pages\AddProduct.html" />
+    <Content Include="Pages\AdminOrders.html" />
     <Content Include="Pages\DelivererOrders.html" />
     <Content Include="Pages\DelivererProfile.html" />
     <Content Include="Pages\DeliverersList.html" />

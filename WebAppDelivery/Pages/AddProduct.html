@@ -12,23 +12,16 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            //var page = window.location.pathname.split('/');
-            //if (localStorage.getItem('mainPage') == null) {
-            //    localStorage.setItem('mainPage', page[2]);
-            //}
-            //else if (localStorage.getItem('mainPage') == "login.html" || localStorage.getItem('mainPage') == "Login.html") {
-            //    localStorage.setItem('mainPage', page[2]);
-            //}
-            //else if (localStorage.getItem('mainPage') != page[2]) {
-            //    window.location.href = localStorage.getItem('mainPage');
-            //}
-
-
+            if (localStorage.getItem('accessToken') == null)
+                window.location.href = "Login.html";
 
             $('#btnAddProduct').click(function () {
                 $.ajax({
                     url: '/api/admin/createproduct',
                     method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
                     data: {
                         Name: $('#Name').val(),
                         Ingredients: $('#Ingredients').val(),
@@ -36,7 +29,7 @@
                     },
                     success: function () {
                         $('#successModal').modal('show');
-                        window.location = "Main.html";
+                        window.location = "MainAdmin.html";
                     },
                     error: function (jqXHR) {
                         $('#divErrorText').text(jqXHR.responseJSON.Message);

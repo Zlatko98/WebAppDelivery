@@ -6,13 +6,14 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using WebAppDelivery.Database;
+using WebAppDelivery.Models;
 using WebAppDelivery.Models.Classes;
 
 namespace WebAppDelivery.Controllers
 {
     public class UsersController : ApiController
     {
-        [Authorize]
+        //[Authorize(Roles ="Admin,User,Deliverer")]
         [Route("api/users/getpage")]
         public IHttpActionResult GetPage()
         {
@@ -73,7 +74,37 @@ namespace WebAppDelivery.Controllers
             }
         }
 
+        [Authorize(Roles = "User")]
+        [Route("api/users/getme")]
+        public EditUserBindingModel GetMe()
+        {
+            string username = RequestContext.Principal.Identity.Name;
 
+            User user = null;
+
+            try
+            {
+                using (WebDBContext entities = new WebDBContext())
+                {
+                    user = entities.Users.FirstOrDefault(d => d.UserName == username);
+                    string state = user.UserType.ToString();
+                    EditUserBindingModel editUserBindingModel = new EditUserBindingModel
+                    {
+                        Email = user.Email,
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        BirthDate = user.BirthDate,
+                        Address = user.Address
+                    };
+
+                    return editUserBindingModel;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
 
     }

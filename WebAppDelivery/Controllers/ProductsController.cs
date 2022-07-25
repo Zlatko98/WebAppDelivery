@@ -11,7 +11,9 @@ namespace WebAppDelivery.Controllers
 {
     public class ProductsController : ApiController
     {
+        [Authorize(Roles ="User")]
         [Route("api/Products/GetProducts")]
+        [HttpGet]
         public List<Product> GetProducts()
         {
             List<Product> products = new List<Product>();

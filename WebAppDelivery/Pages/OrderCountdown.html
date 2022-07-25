@@ -10,6 +10,8 @@
 
     <script>
         $(document).ready(function () {
+            if (localStorage.getItem('accessToken') == null)
+                window.location.href = "Login.html";
 
             $.ajax({
                 type: "GET",

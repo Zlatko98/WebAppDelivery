@@ -12,11 +12,13 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
+            //if (localStorage.getItem('accessToken') == null)
+            //    window.location.href = "Login.html";
 
             $.ajax({
                 url: '/api/admin/getdeliverers',
                 method: 'GET',
+                dataType: "json",
                 headers: {
                     'Authorization': 'Bearer '
                         + localStorage.getItem("accessToken")
@@ -26,7 +28,7 @@
                     $.each(data, function (index, value) {
                         var state = "";
                         var classHidden = "";
-                        var id = value.Id;
+
                         if (value.UserType == 2) {
                             state = "PENDING";
                         }else if (value.UserType == 3) {
@@ -51,19 +53,12 @@
                 error: function (jQXHR) {
                     // If status code is 401, access token expired, so
                     // redirect the user to the login page
-                    if (jQXHR.status == "401") {
-                        $('#errorModal').modal('show');
-                    }
-                    else {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
-                    }
+                    
                 }
             });
 
             $('body').on('click', "input[name='btnDetails']", function (data) {
                 id = data.target.id;
-                alert('aaaaaa');
                 $.ajax({
                     url: "/api/admin/setdeliverer",
                     method: 'POST',
@@ -90,8 +85,7 @@
                     url: "/api/admin/blockdeliverer",
                     method: 'POST',
                     headers: {
-                        'Authorization': 'Bearer '
-                            + localtorage.getItem("accessToken")
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                     },
                     data: {
                         Id: id

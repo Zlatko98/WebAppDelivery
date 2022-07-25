@@ -9,6 +9,6 @@ namespace WebAppDelivery.Models.Classes
     {
         List<Order> orders;
 
-        public List<Order> Orders { get => orders; set => orders = value; }
+        public virtual List<Order> Orders { get; set; }
     }
 }

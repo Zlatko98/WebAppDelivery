@@ -12,7 +12,7 @@ namespace WebAppDelivery.Controllers
 {
     public class OrderController : ApiController
     {
-        [Authorize]
+        [Authorize(Roles ="User")]
         [Route("api/order/createorder")]
         [HttpPost]
         public IHttpActionResult CreateOrder([FromBody] OrderProductBindingModel model)
@@ -31,11 +31,11 @@ namespace WebAppDelivery.Controllers
                 Address = model.Address,
                 Comment = model.Comment,
                 Total = model.Total,
-                Amounts = model.Amounts
+                OrderState = OrderState.PENDING,
             };
 
             Product product = null;
-            User user = null;
+            User user = new User();
             List<Product> products = new List<Product>();
 
             try
@@ -51,7 +51,6 @@ namespace WebAppDelivery.Controllers
 
                     user = entities.Users.FirstOrDefault(p => p.UserName == username);
                     
-                    order.Products = products;
                     entities.Orders.Add(order);
                     user.Orders.Add(order);
                     entities.SaveChanges();
@@ -67,7 +66,7 @@ namespace WebAppDelivery.Controllers
 
         [Authorize(Roles ="Deliverer")]
         [Route("api/order/getpendingorders")]
-        public List<Order> GetOrders()
+        public List<Order> GetPendingOrders()
         {
             string username = RequestContext.Principal.Identity.Name;
             Deliverer deliverer = null;
@@ -81,6 +80,14 @@ namespace WebAppDelivery.Controllers
 
                     if (deliverer.UserType == UserType.DELIVERER)
                     {
+                        foreach (Order o in deliverer.Orders)
+                        {
+                            if(o.OrderState == OrderState.INPROGRESS)
+                            {
+                                return orders;
+                            }
+                        }
+                        
                         orders = entities.Orders.ToList();
                     }
                 }
@@ -106,12 +113,12 @@ namespace WebAppDelivery.Controllers
         [Authorize(Roles = "Deliverer")]
         [Route("api/order/takeorder")]
         [HttpPost]
-        public IHttpActionResult TakeOrder([FromBody]int id)
+        public IHttpActionResult TakeOrder(SetDelivererBindingModel m)
         {
             string username = RequestContext.Principal.Identity.Name;
 
             Deliverer deliverer = null;
-            Order order = null;
+            Order order = new Order();
 
             try
             {
@@ -119,7 +126,7 @@ namespace WebAppDelivery.Controllers
                 {
 
                     deliverer = entities.Deliverers.FirstOrDefault(p => p.UserName == username);
-                    order = entities.Orders.FirstOrDefault(o => o.Id == id);
+                    order = entities.Orders.FirstOrDefault(o => o.Id == m.Id);
                     order.OrderState = OrderState.INPROGRESS;
                     deliverer.Orders.Add(order);
                     entities.SaveChanges();
@@ -149,6 +156,7 @@ namespace WebAppDelivery.Controllers
 
                     foreach(Order o in user.Orders)
                     {
+                        
                         orders.Add(o);
                     }
                 }
@@ -179,6 +187,27 @@ namespace WebAppDelivery.Controllers
                     {
                         orders.Add(o);
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return orders;
+        }
+        [Authorize(Roles = "Admin")]
+        [Route("api/order/getadminorders")]
+        public List<Order> GetAdminOrders()
+        {
+            string username = RequestContext.Principal.Identity.Name;
+            List<Order> orders = new List<Order>();
+
+            try
+            {
+                using (WebDBContext entities = new WebDBContext())
+                {
+                    orders = entities.Orders.ToList();
                 }
             }
             catch (Exception ex)

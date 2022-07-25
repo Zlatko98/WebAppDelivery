@@ -3,8 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+
+
     <script>
         $(document).ready(function () {
+            if (localStorage.getItem('accessToken') == null)
+                window.location.href = "Login.html";
 
             $.ajax({
                 url: '/api/order/getdeliverersorders',
@@ -12,11 +20,19 @@
                 success: function (data) {
                     $('#tblBody').empty();
                     $.each(data, function (index, value) {
+                        var state = "";
+                        if (value.UserType == 0) {
+                            state = "Pending";
+                        } else if (value.UserType == 1) {
+                            state = "In progress";
+                        } else {
+                            state = "Finished";
+                        }
                         var row = $('<tr><td>'
                             + value.Address + '</td><td>'
                             + value.Comment + '</td><td>'
                             + value.Total + '</td><td>'
-                            + value.OrderState + '</td><td>');
+                            + state + '</td><td>');
                         $('#tblData').append(row);
                     });
                 },

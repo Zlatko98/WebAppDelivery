@@ -61,17 +61,24 @@ namespace WebAppDelivery.Controllers
 
             return Ok();
         }
-        [Authorize(Roles = "Admin")]
+
+        //[Authorize(Roles = "Admin")]
         [Route("api/admin/getdeliverers")]
-        public List<Deliverer> GetDeliverers()
+        public List<Deliverer> GetAdDeliverers()
         {
-             List<Deliverer> deliverers = new List<Deliverer>();
+            List<Deliverer> deliverers = new List<Deliverer>();
+
 
             try
             {
                 using (WebDBContext entities = new WebDBContext())
                 {
-                    deliverers = entities.Deliverers.ToList();
+                    entities.Configuration.ProxyCreationEnabled = false;
+
+                    foreach (Deliverer d in entities.Deliverers.ToList())
+                    {
+                        deliverers.Add(d);
+                    }
                 }
             }
             catch (Exception ex)
@@ -102,19 +109,24 @@ namespace WebAppDelivery.Controllers
                 return (BadRequest(ex.Message));
             }
 
-            #region Mail
-            MailMessage mm = new MailMessage();
-            mm.From = new MailAddress("zlatkolukic998@gmail.com");
-            mm.To.Add(deliverer.Email);
-            mm.Subject = "Account state changed";
-            mm.Body = "Your account is set to DELIVERER.";
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
-            smtpClient.UseDefaultCredentials = true;
-            smtpClient.Port = 587;
-            smtpClient.EnableSsl = true;
-            smtpClient.Credentials = new NetworkCredential("zlatkolukic998@gmail.com", "thkziqwdjusoxncf");
-            smtpClient.Send(mm);
-            #endregion
+            try
+            {
+                MailMessage mm = new MailMessage();
+                mm.From = new MailAddress("zlatkolukic998@gmail.com");
+                mm.To.Add(deliverer.Email);
+                mm.Subject = "Account state changed";
+                mm.Body = "Your account is set to DELIVERER.";
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+                smtpClient.UseDefaultCredentials = true;
+                smtpClient.Port = 587;
+                smtpClient.EnableSsl = true;
+                smtpClient.Credentials = new NetworkCredential("zlatkolukic998@gmail.com", "thkziqwdjusoxncf");
+                smtpClient.Send(mm);
+            }catch(Exception ex)
+            {
+                return Ok();
+            }
+
 
             return Ok();
         }
@@ -148,7 +160,7 @@ namespace WebAppDelivery.Controllers
             smtpClient.UseDefaultCredentials = true;
             smtpClient.Port = 587;
             smtpClient.EnableSsl = true;
-            smtpClient.Credentials = new NetworkCredential("zlatkolukic998@gmail.com", "cavoledeni4323");
+            smtpClient.Credentials = new NetworkCredential("zlatkolukic998@gmail.com", "thkziqwdjusoxncf");
             smtpClient.Send(mm);
             #endregion
 

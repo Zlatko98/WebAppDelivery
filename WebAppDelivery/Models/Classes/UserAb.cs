@@ -19,7 +19,6 @@ namespace WebAppDelivery.Models.Classes
         string surname;
         DateTime birthDate;
         string address;
-        //[ConcurrencyCheck]
         UserType userType;
         string image;
 

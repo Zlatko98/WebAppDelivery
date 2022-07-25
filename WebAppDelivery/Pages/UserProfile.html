@@ -10,9 +10,11 @@
 
     <script>
         $(document).ready(function () {
-            $('#btnDetailsStart').click(function () {
+            if (localStorage.getItem('accessToken') == null)
+                window.location.href = "Login.html";
+
                 $.ajax({
-                    url: '/api/korisnici/getme/',
+                    url: '/api/users/getme',
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -25,13 +27,15 @@
                         $('#BirthDate').text(data.BirthDate);
                     }
                 });
-            });
 
 
             $('#btnEdit').click(function () {
                 $.ajax({
                     url: '/api/account/edituser',
                     method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
                     data: {
                         Name: $('#Name').val(),
                         Surname: $('#Surname').val(),
@@ -121,7 +125,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-success" data-dismiss="modal">
-                                Zatvori
+                                Close
                             </button>
                         </div>
                     </div>

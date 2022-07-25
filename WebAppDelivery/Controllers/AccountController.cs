@@ -71,7 +71,8 @@ namespace WebAppDelivery.Controllers
                 Name = model.Name,
                 Surname =model.Surname,
                 BirthDate = model.BirthDate,
-                UserType = UserType.ADMINISTRATOR
+                Address = model.Address,
+                UserType = UserType.USER
             };
 
             try

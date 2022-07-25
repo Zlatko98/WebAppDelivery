@@ -7,39 +7,13 @@
     <script src="../Scripts/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
 
-
-
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
             if (localStorage.getItem('accessToken') == null)
                 window.location.href = "Login.html";
 
-            $('body').on('click', "input[name='btnTake']", function (data) {
-                id = data.target.id;
-                alert(id);
-                $.ajax({
-                    url: "/api/order/takeorder",
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer '
-                            + localStorage.getItem("accessToken")
-                    },
-                    data: {
-                        id: id
-                    },
-                    success: function () {
-                        window.location.href = "OrderCountDown.html";
-                    },
-                    error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
-                    }
-                });
-            });
-
-
             $.ajax({
-                url: '/api/order/getpendingorders',
+                url: '/api/order/getadminorders',
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer '
@@ -49,24 +23,19 @@
                     $('#tblBody').empty();
                     $.each(data, function (index, value) {
                         var state = "";
-                        var classHidden = "";
                         if (value.OrderState == 0) {
                             state = "Pending";
                         } else if (value.OrderState == 1) {
                             state = "In progress";
-                            classHidden = "disabled";
-                        } else {
+                        } else if (value.OrderState == 2) {
                             state = "Finished";
-                            classHidden = "disabled";
                         }
 
                         var row = $('<tr><td>'
                             + value.Address + '</td><td>'
                             + value.Comment + '</td><td>'
                             + value.Total + '</td><td>'
-                            + state + '</td><td>'
-                            + '<input id = ' + value.Id + ' name="btnTake" class="btn btn-success" ' + classHidden + ' type="button" value="TAKE" />'
-                            + '</td></tr>');
+                            + state + '</td><td>');
                         $('#tblData').append(row);
                     });
                 },
@@ -84,8 +53,6 @@
             });
 
         });
-
-
     </script>
 
 </head>
@@ -98,12 +65,10 @@
                     <td>Comment</td>
                     <td>Total</td>
                     <td>State</td>
-                    <td>Take</td>
                 </tr>
             </thead>
             <tbody id="tblBody"></tbody>
         </table>
     </div>
-
 </body>
 </html>

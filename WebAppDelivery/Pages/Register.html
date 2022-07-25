@@ -10,17 +10,6 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            //var page = window.location.pathname.split('/');
-            //if (localStorage.getItem('mainPage') == null) {
-            //    localStorage.setItem('mainPage', page[2]);
-            //}
-            //else if (localStorage.getItem('mainPage') == "login.html" || localStorage.getItem('mainPage') == "Login.html") {
-            //    localStorage.setItem('mainPage', page[2]);
-            //}
-            //else if (localStorage.getItem('mainPage') != page[2]) {
-            //    window.location.href = localStorage.getItem('mainPage');
-            //}
-
 
             $('#btnFacebookLogin').click(function () {
                 window.location.href = "/api/Account/ExternalLogin?provider=Facebook&response_type=token&client_id=self&redirect_uri=https%3A%2F%2Flocalhost%3A44339%2FPages%2FLogin.html&state=GerGr5JlYx4t_KpsK57GFSxVueteyBunu02xJTak5m01";
@@ -104,7 +93,7 @@
                             <td><input type="text" required id="Email" placeholder="Email" /> </td>
                         </tr>
                         <tr>
-                            <td>Password</td>
+                            <td>Password <!--(must contain:Upercase,Lowercase,Numbers,Symbols)--></td>
                             <td>
                                 <input type="password" required id="Password" placeholder="Password" />
                             </td>
@@ -155,11 +144,11 @@
                             <button type="button" class="close" data-dismiss="modal">
                                 &times;
                             </button>
-                            <h4 class="modal-title">Uspeh</h4>
+                            <h4 class="modal-title">Success</h4>
                         </div>
                         <div class="modal-body">
                             <form>
-                                <h2 class="modal-title">Uspesna Registracija!</h2>
+                                <h2 class="modal-title">Success</h2>
                             </form>
                         </div>
                         <div class="modal-footer">

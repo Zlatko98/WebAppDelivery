@@ -4,20 +4,39 @@
     <meta charset="utf-8" />
     <title></title>
 
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+
     <script>
         $(document).ready(function () {
+            if (localStorage.getItem('accessToken') == null)
+                window.location.href = "Login.html";
 
             $.ajax({
                 url: '/api/order/getuserorders',
                 method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer '
+                        + localStorage.getItem("accessToken")
+                },
                 success: function (data) {
                     $('#tblBody').empty();
                     $.each(data, function (index, value) {
+                        var state = "";
+                        if (value.OrderState == 0) {
+                            state = "Pending";
+                        } else if (value.OrderState == 1) {
+                            state = "In progress";
+                        } else if (value.OrderState == 2) {
+                            state = "Finished";
+                        }
+
                         var row = $('<tr><td>'
                             + value.Address + '</td><td>'
                             + value.Comment + '</td><td>'
                             + value.Total + '</td><td>'
-                            + value.OrderState + '</td><td>');
+                            + state + '</td><td>');
                         $('#tblData').append(row);
                     });
                 },
@@ -46,7 +65,7 @@
                     <td>Address</td>
                     <td>Comment</td>
                     <td>Total</td>
-                    <td>Take</td>
+                    <td>State</td>
                 </tr>
             </thead>
             <tbody id="tblBody"></tbody>

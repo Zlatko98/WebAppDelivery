@@ -10,6 +10,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            if (localStorage.getItem('accessToken') == null)
+                window.location.href = "Login.html";
 
             var cnt = 0;
             var amount = 0;
@@ -20,8 +22,8 @@
             var amountList = [];
 
             $.ajax({
-                type: "GET",
                 url: "/api/Products/GetProducts",
+                method:'GET',
                 headers: {
                     'Authorization': 'Bearer '
                         + localStorage.getItem("accessToken")
@@ -38,6 +40,10 @@
                 $.ajax({
                     url: '/api/order/createorder',
                     method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer '
+                            + localStorage.getItem("accessToken")
+                    },
                     data: {
                         Address: $('#address').val(),
                         Comment: $('#comment').val(),
@@ -120,11 +126,41 @@
                     <input type="text" name="Comment" id="comment" class="form-control" placeholder="Comment" />
                     <br />
                     <label class="form-label">Total: </label>
-                    <input type="number" id="total" value="0" />
-                    <input class="btn btn-success" style="float:right" id="order" value="ORDER"/>
+                    <input type="number" id="total" value="0" readonly />
+                    <input class="btn btn-success" style="float:right" id="order" value="ORDER" />
                 </div>
-           </form>
+            </form>
         </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="successModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Success</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <h2 class="modal-title">Success</h2>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divError" class="alert alert-danger collapse">
+        <a id="linkClose" href="#" class="close">&times;</a>
+        <div id="divErrorText"></div>
+    </div>
+    </div>
     </div>
 
 </body>
